@@ -2,6 +2,9 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
 
 	function EngridSimple (params) {
 		var self = this;
+
+		// remove all listeners on window
+		$(window).off('engrid-change');
         
         self.config = params.data.layout || ko.observable('a=/bcd2/2e3f;f=/ghij/klm/o2p3qr;');
 		self.showConfig = params.data.showConfiguration || ko.observable(false);
