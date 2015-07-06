@@ -1,10 +1,12 @@
-define(['knockout', 'text!./controls.html'], function(ko, templateMarkup) {
+define(['knockout', 'text!./controls.html', 'dat-gui'], function(ko, templateMarkup, dat) {
 
 
 
 	function Controls (params, componentInfo) {
 		var self = this;
-
+		var dat = {
+			GUI: dat
+		}
 
 		self.controled = params.data || ko.observable([]);
 		/*self.outcomes = self.databases.outcomes();
@@ -34,8 +36,7 @@ define(['knockout', 'text!./controls.html'], function(ko, templateMarkup) {
 				
 			}
 			]);*/
-		
-		
+
 		var numbFolders=self.controled().length;
 		
 		

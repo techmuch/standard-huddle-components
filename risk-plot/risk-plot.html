@@ -1,4 +1,31 @@
-<link rel="stylesheet" type="text/css" href="components/risk-plot/risk-style.css">
+<style type="text/css">
+		.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	  opacity: 1;
+	}
+
+	.axis text { font-size:13px; }
+	.axis y label{color:red;}
+	
+	body { font: 15px sans-serif; }
+	.circles { opacity: 1; }
+
+	.tipsy { font-size:13px; margin-top:-10px;}
+
+	.guide line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	  opacity: 0;
+	}
+	
+	text{
+	fill: #aa9977;
+	}
+</style>
 
 <div><form id="myForm" >
 <!--X-axis:  <Select onChange=selectChangeX(this.value)>
