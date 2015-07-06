@@ -1,0 +1,16 @@
+<table class="table">
+	<thead>
+		<tr data-bind="foreach: header">
+			<th data-bind="html: $data"></th>
+		</tr>
+	</thead>
+</table>
+<div class="" style="overflow: auto;cursor: pointer;height:100%">
+<table class="table table-striped table-hover">
+	<tbody class="" data-bind="foreach: rows">
+		<tr data-bind="foreach: $data">
+			<td data-bind="html: $data"></td>
+		</tr>
+	</tbody>
+</table>
+<div>

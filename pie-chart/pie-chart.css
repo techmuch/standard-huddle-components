@@ -1,0 +1,7 @@
+pie-chart {
+  font: 10px sans-serif;
+}
+
+pie-chart.arc path {
+  stroke: #fff;
+}

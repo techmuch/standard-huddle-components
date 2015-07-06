@@ -1,0 +1,11 @@
+{"type":"FeatureCollection","features":[
+
+{"type":"Feature","id":"01","geometry":{"type":"Point","coordinates":[-122.064454,37.408769]},"properties":{"name":" Ames Research Center              ","population":4447100}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[ -78.676478,35.784547]},"properties":{"name":"North Carolina Space Grant Consortium          ","population":23871648}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[-84.733804,39.509472]},"properties":{"name":"Airspace Operations and Safety Program         ","population":33871648}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[ -76.373929,37.078133]},"properties":{"name":" Langley Research Center         ","population":3387168}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[ -95.092061,29.551933]},"properties":{"name":" Lyndon B. Johnson Space Center         ","population":3871648}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[  -80.648605,28.572886]},"properties":{"name":" John F. Kennedy Space Center         ","population":33871648}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[ -76.852239,38.991227]},"properties":{"name":" Goddard Space Flight Center          ","population":13871648}},
+{"type":"Feature","id":"06","geometry":{"type":"Point","coordinates":[  -104.583457,35.136056]},"properties":{"name":" Jet Propulsion Lab         ","population":338648}}
+]}

@@ -1,0 +1,33 @@
+.engrid-container{
+	position: absolute;
+	/*top: 51px;*/
+	left: 0;
+	width: 100%; 
+	height: 100%; 
+	z-index: 1;
+	bottom: 0;
+	right: 0;
+}
+.engrid-config{
+	position: absolute;
+	left: 0;
+	bottom: 56px;
+	width: 100%;
+	height: 25px;
+	z-index: 2;
+}
+.grid{
+	position: absolute;
+	color: rgba(255,255,255,0.5);
+	/*font-size: 40px;*/
+	overflow: hidden;				
+}
+
+.grid .tile{
+	width: 100%;
+	height: 100%;
+}
+
+#page{
+	overflow: hidden;
+}	

@@ -1,0 +1,207 @@
+define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3, templateMarkup) {
+
+	function BarChart (params, componentInfo) {
+
+		var self = this;
+		self.element = componentInfo.element;
+		self.firstRender = ko.observable(true);
+		self.data = params.data;
+		self.color = params.color;
+
+		// list variable common to both render() and update()
+		self.x = null;
+		self.y = null;
+		self.xAxis = null;
+		self.yAxis = null;
+		self.svg = null;
+		//self.color = d3.scale.ordinal().range(params.color()[6]);
+
+		var margin = {top: 20, right: 20, bottom: 30, left: 65};
+		self.width = $(self.element.parentElement).width() - margin.left - margin.right;
+		self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
+
+
+		//debugger;
+
+		self.render = function() {
+			var data = self.data();
+			var color = d3.scale.ordinal().range(self.color()[6]);
+			//console.log('test render'); // test
+
+			self.x = d3.scale.ordinal().domain(data.map(function(d) { return d.name; })).rangeRoundBands([0, self.width], .1);
+
+			self.y = d3.scale.linear().domain([0, d3.max(data, function(d) { return d.value; })]).range([self.height, 0]);
+
+			self.xAxis = d3.svg.axis()
+				.scale(self.x)
+				.orient("bottom");
+
+			self.yAxis = d3.svg.axis()
+				.scale(self.y)
+				.orient("left")
+				.ticks(20);
+
+			self.svg = d3.select(self.element).append("svg")
+				.attr("width", self.width + margin.left + margin.right)
+				.attr("height", self.height + margin.top + margin.bottom)
+			  .append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			  self.svg.append("g")
+				  .attr("class", "x axis")
+				  .attr("transform", "translate(0," + self.height + ")")
+				  .call(self.xAxis);
+
+
+			self.svg.append("g")
+				  .attr("class", "y axis")
+				  .call(self.yAxis)
+				.append("text")
+				  .attr("transform", "rotate(-90)")
+				  .style("text-anchor", "middle")
+				  .attr("y", -50)
+				  .attr("x", -$(".y.axis")[0].getBBox().height / 2)
+				  .attr("dy", ".71em")
+				  .text("Number of TCs");
+
+/* 			  self.svg.append("g")
+				  .attr("class", "y axis")
+				  .call(self.yAxis)
+				.append("text")
+				  .attr("transform", "rotate(-90)")
+				  .attr("y", 6)
+				  .attr("dy", ".71em")
+				  .style("text-anchor", "end")
+				  .text("Number of TCs"); */
+
+			  self.svg.selectAll(".bar")
+				  .data(data)
+				.enter().append("rect")
+				  .attr("class", "bar")
+				  .attr("x", function(data) { return self.x(data.name); })
+				  .attr("width",self.x.rangeBand())
+				  .attr("y", function(data) { return self.y(data.value); })
+				  .attr("height", function(data) { return self.height - self.y(data.value); })
+				  .attr("fill", function(data,i) { return color(i); });
+
+				function type(data) {
+				  data.value = +data.value;
+				  return data;
+					}
+
+				this.firstRender(false);
+		}
+
+
+		self.update = function update() {
+			var data = self.data();
+			var color = d3.scale.ordinal().range(self.color()[6]);
+			//console.log('test update');
+
+			var transDuration = 2500;
+
+			//Define the transition (in ms)
+			var transition = self.svg.transition().duration(transDuration);
+
+			self.x = d3.scale.ordinal().domain(data.map(function(d) { return d.name; })).rangeRoundBands([0, self.width], .1);
+
+			self.y = d3.scale.linear().domain([0, d3.max(data, function(d) { 
+				return d.value; 
+			})*1.05]).range([self.height, 0]);
+
+			self.xAxis = d3.svg.axis()
+				.scale(self.x)
+				.orient("bottom");
+
+			self.yAxis = d3.svg.axis()
+				.scale(self.y)
+				.orient("left")
+				.ticks(20);
+
+			//apply the transition to the NEW xAxis (xAxis is a function of x, which its domain was redefined above)
+			transition.select("g.x.axis").call(self.xAxis);
+			//apply the transition to the NEW yAxis (yAxis is a function of y, which its domain was redefined above)
+			transition.select("g.y.axis").call(self.yAxis);
+
+			//Select ALL rects and point it to the newly defined data variable
+			var rects = self.svg.selectAll("g rect");
+			rects.data(data);
+
+			//Apply the new positions to the rects with a transition
+			rects.transition().duration(transDuration)
+					.attr("class", "bar")
+				  .attr("x", function(data) { return self.x(data.name); })
+				  .attr("width",self.x.rangeBand())
+				  .attr("y", function(data) { return self.y(data.value); })
+				  .attr("height", function(data) { return self.height - self.y(data.value); })
+				  .attr("fill", function(data,i) { return color(i); });;
+
+			// self.svg = d3.select(self.element).append("svg")
+				// .attr("width", width + margin.left + margin.right)
+				// .attr("height", height + margin.top + margin.bottom)
+			  // .append("g")
+				// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			  // self.svg.append("g")
+				  // .attr("class", "x axis")
+				  // .attr("transform", "translate(0," + height + ")")
+				  // .call(self.xAxis);
+
+			  // self.svg.append("g")
+				  // .attr("class", "y axis")
+				  // .call(self.yAxis)
+				// .append("text")
+				  // .attr("transform", "rotate(-90)")
+				  // .attr("y", 6)
+				  // .attr("dy", ".71em")
+				  // .style("text-anchor", "end")
+				  // .text("Number of TCs");
+
+			  // self.svg.selectAll(".bar")
+				  // .data(data)
+				// .enter().append("rect")
+				  // .attr("class", "bar")
+				  // .attr("x", function(data) { return self.x(data.name); })
+				  // .attr("width",self.x.rangeBand())
+				  // .attr("y", function(data) { return self.y(data.value); })
+				  // .attr("height", function(data) { return height - self.y(data.value); });
+
+				// function type(data) {
+				  // data.value = +data.value;
+				  // return data;
+					// }
+		}
+
+
+		self.reactor = ko.computed(function() {
+			var data = self.data();
+			var color = params.color();
+			//console.log(typeof data);
+			//debugger;
+			if (typeof data !== 'undefined') {
+				if (self.firstRender()) {
+					self.render()
+				} else {
+					self.update()
+				}
+			}
+			return data;
+		})
+	}
+
+	// This runs when the component is torn down. Put here any logic necessary to clean up,
+	// for example cancelling setTimeouts or disposing Knockout subscriptions/computeds.
+	BarChart.prototype.dispose = function() {};
+
+	return {
+		viewModel: {
+			createViewModel: BarChart
+		},
+		template: templateMarkup
+	};
+
+});
+
+
+
+

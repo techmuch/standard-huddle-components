@@ -1,0 +1,27 @@
+/* bar-chart .bar {
+  fill: steelblue;
+} */
+
+/* bar-chart .bar:hover {
+  fill: brown;
+} */
+
+bar-chart .axis {
+  font: 10px sans-serif;
+}
+
+bar-chart .axis path,
+bar-chart .axis line {
+  fill: none;
+  stroke: #202636;
+  shape-rendering: crispEdges;
+}
+
+bar-chart text{
+	fill: #202636;
+}
+
+bar-chart g rect{
+	stroke:  black;
+	shape-rendering: crispEdges;
+}

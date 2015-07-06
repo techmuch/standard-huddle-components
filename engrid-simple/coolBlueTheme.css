@@ -1,0 +1,23 @@
+.grid .tile{
+	width: 100%;
+	height: 100%;
+	/*margin: 10px;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;*/
+	padding: 10px 10px 0px 10px;
+
+}
+
+.tile-border{
+	border: dashed 1px rgba(255,255,255,0.5);
+}
+
+.grid svg .shadow{
+	-webkit-filter: drop-shadow( 5px 5px 5px rgba(255,255,255,.5));
+	filter: drop-shadow( 5px 5px 5px rgba(255,255,255,.5));
+}
+
+.engrid-config{
+	color: #222244;
+}

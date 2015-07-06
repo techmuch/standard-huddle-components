@@ -1,0 +1,12 @@
+<link rel="stylesheet" type="text/css" href="components/ko-datatable/ko-datatable.css">
+<table>
+    <thead>
+        <tr><th>TCs</th><th>Score</th></tr>
+    </thead>
+    <tbody data-bind="foreach: data">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: score"></td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,14 @@
+<link rel="stylesheet" type="text/css" href="components/ranking-table/ranking-table.css">
+
+<table>
+    <thead>
+        <tr><th>TCs</th><th>Score</th><th>Change</th></tr>
+    </thead>
+    <tbody data-bind="foreach: table">
+        <tr>
+            <td data-bind="text: label"></td>
+            <td data-bind="progress: relativeScore"></td>
+			<td data-bind="text: change, style: { 'background-color': change < 0 ? 'darkred' : 'darkgreen' }"></td>
+        </tr>
+    </tbody>
+</table>

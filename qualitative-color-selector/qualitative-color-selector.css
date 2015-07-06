@@ -1,0 +1,15 @@
+qualitative-color-selector {
+}
+
+.qual-palette {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px;
+}
+
+.qual-swatch {
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+}
