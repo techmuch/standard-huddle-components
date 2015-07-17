@@ -6,15 +6,16 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 		self.element = componentInfo.element;
 		self.firstRender = ko.observable(true);
 		self.data = params.data;
-		self.color = params.color;
-
+		//self.color = params.color;
+		// test with settings table in db
+		self.color = JSON.parse(params.color());
 		// list variable common to both render() and update()
 		self.x = null;
 		self.y = null;
 		self.xAxis = null;
 		self.yAxis = null;
 		self.svg = null;
-		//self.color = d3.scale.ordinal().range(params.color()[6]);
+
 
 		var margin = {top: 20, right: 20, bottom: 30, left: 65};
 		self.width = $(self.element.parentElement).width() - margin.left - margin.right;
@@ -25,7 +26,8 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 
 		self.render = function() {
 			var data = self.data();
-			var color = d3.scale.ordinal().range(self.color()[6]);
+			//var color = d3.scale.ordinal().range(self.color()[6]);
+			var color = d3.scale.ordinal().range(self.color);
 			//console.log('test render'); // test
 
 			self.x = d3.scale.ordinal().domain(data.map(function(d) { return d.name; })).rangeRoundBands([0, self.width], .1);
@@ -95,7 +97,8 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 
 		self.update = function update() {
 			var data = self.data();
-			var color = d3.scale.ordinal().range(self.color()[6]);
+			//var color = d3.scale.ordinal().range(self.color()[6]);
+			var color = d3.scale.ordinal().range(self.color);
 			//console.log('test update');
 
 			var transDuration = 2500;
