@@ -54,6 +54,11 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                         var c1 = h === '' ? '' : h;
                         var c2 = w === '' ? '' : '<' + w + ' params="' + p + '"></' + w + '>';
                         var c = c1 + c2;
+                        if (typeof self.content[tags[i]].scroll === 'function' && self.content[tags[i]].scroll()) { // use scrollbars
+                            var sb = 'overflow: auto';
+                        }else{
+                            var sb = 'overflow: hidden';
+                        }
                         if (typeof self.content[tags[i]].doc === 'function' && self.content[tags[i]].doc() !== '') { // layout for documentation
                             var d_html = '<span style="margin-right: 20px;" class="glyphicon glyphicon-question-sign pull-right" aria-hidden="true" data-panel="' + tags[i] + '" data-layout="' + self.content[tags[i]].doc() + '" data-bind="click: showDocumentation"></span>';
                         } else {
@@ -68,7 +73,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
 
                         if (typeof self.content[tags[i]].title === 'function' && self.content[tags[i]].title() !== '') { // a non-blank title triggers the panels to display
                             var t = self.content[tags[i]].title()
-                            c = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">' + t + '<span class="glyphicon pull-right" aria-hidden="true" data-panel="' + tags[i] + '" data-bind="click: fullsize, css: {\'glyphicon-resize-full\': showExpand(), \'glyphicon-resize-small\': !showExpand()}"></span>' + f_html + d_html + '</h3></div><div class="panel-body">' + c + '</div></div>';
+                            c = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">' + t + '<span class="glyphicon pull-right" aria-hidden="true" data-panel="' + tags[i] + '" data-bind="click: fullsize, css: {\'glyphicon-resize-full\': showExpand(), \'glyphicon-resize-small\': !showExpand()}"></span>' + f_html + d_html + '</h3></div><div class="panel-body" style="'+sb+'">' + c + '</div></div>';
                         }
                     } else {
                         //c = self.showConfig() ? '<h1>' + tags[i] + '</h1>' : '';
