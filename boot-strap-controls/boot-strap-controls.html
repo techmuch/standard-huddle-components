@@ -2,7 +2,6 @@
   boot-strap-controls{
     color: black;
   }
-
   boot-strap-controls a:link,
   boot-strap-controls a:visited{
     color: black;
@@ -31,6 +30,10 @@
               <!-- ko if: typeV === 'checkbox' -->
                 <input type="checkbox" data-bind="checked: variable" />
                 <span data-bind="text: Name"></span>
+              <!-- /ko -->
+              <!-- ko if: typeV === 'menu' -->
+                <span data-bind="text: Name"></span>
+                <select data-bind="options: listOptions, value: variable" ></select> 
               <!-- /ko -->
             </li>
         </ul>
