@@ -14,6 +14,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
             self.showExpand = ko.observable(true)
             self.orinigalLayout = self.config();
             self.fullsize = function(engrid, event) {
+                //if ($(event.toElement).parents('engrid-simple')[0] === $(self.element)[0]) {
                 var n = event.toElement.attributes['data-panel'].value
                 if (self.showExpand()) {
                     self.config('a=/' + n);
@@ -22,6 +23,8 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                     self.resetLayout();
                     self.showExpand(true);
                 }
+                $(window).trigger('resize')
+                //}
             }
             self.showDocumentation = function(engrid, event) {
                 var n = event.toElement.attributes['data-panel'].value
@@ -76,6 +79,21 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                 return divString;
             }
             $(self.element).find('.engrid-container').html(self.divGenerator());
+
+            self.resize = function() {
+                var currentAncestor = $(self.element).parent();
+                var sizeFound = false;
+                while (!sizeFound) {
+                    if (currentAncestor.height() > 0 && currentAncestor.width() > 0) {
+                        sizeFound = true;
+                        $(self.element).find('.engrid-container').height(currentAncestor.height());
+                        $(self.element).find('.engrid-container').width(currentAncestor.width());
+                    } else {
+                        currentAncestor = currentAncestor.parent();
+                    }
+                }
+            }
+            self.resize();
 
             var nEqn;
             var cEqn = [];
@@ -229,6 +247,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
 
             self.resizeHandle = $(window).resize(function() {
                 if (self.config() !== '') {
+                    self.resize();
                     self.processConfiguration();
                 }
             })
@@ -242,7 +261,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                     } else {
                         self.showConfig(true)
                         $(self.element).find('.grid').addClass('tile-border')
-                         $(self.element).find('h1.config-tile-label').fadeIn()
+                        $(self.element).find('h1.config-tile-label').fadeIn()
                     }
                     //self.processConfiguration();
                 }
