@@ -166,7 +166,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                 }
                 for (i = 0; i < nRow; i++) {
                     for (j = 0; j < nCol[i]; j++) {
-                        $(self.element).find('.grid-' + idCol[i][j]).css('visibility', 'visible');
+                        $(self.element).find('.grid-' + idCol[i][j]).css('visibility', 'inherit');
                     }
                 }
             }
@@ -191,7 +191,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                         $(self.element).find('.grid-' + cLHS).css('top', '0px');
                         $(self.element).find('.grid-' + cLHS).css('width', '100%');
                         $(self.element).find('.grid-' + cLHS).css('height', '100%');
-                        $(self.element).find('.grid-' + cLHS).css('visibility', 'visible');
+                        $(self.element).find('.grid-' + cLHS).css('visibility', 'inherit');
                     }
 
                     var cRHS = cEqn[i].split('=')[1];
@@ -242,6 +242,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                     //window.setTimeout(self.processConfiguration, 25);
                     self.processConfiguration();
                     $(window).trigger('engrid-change');
+                    //$(window).trigger('resize')
                 }
             })
 
