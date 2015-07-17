@@ -11,12 +11,18 @@
 }
 .engrid-config{
 	position: absolute;
-	left: 0;
+	left: 56px;
 	bottom: 56px;
-	width: 100%;
-	height: 25px;
+	/*width: 100%;
+	height: 25px;*/
 	z-index: 2;
+	color: silver;
+	background-color: maroon;
 }
+.engrid-config input{
+	color: black;
+}
+
 .grid{
 	position: absolute;
 	color: rgba(255,255,255,0.5);
@@ -43,20 +49,26 @@
 
 }
 
+h1.config-tile-label{
+	color: silver;
+	position: absolute;
+	background-color: maroon;
+	padding: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
 .tile-border{
-	border: dashed 1px rgba(255,255,255,0.5);
+	border: dashed 1px rgba(77,88,88,0.5);
 }
 
 .grid svg .shadow{
 	-webkit-filter: drop-shadow( 5px 5px 5px rgba(255,255,255,.5));
 	filter: drop-shadow( 5px 5px 5px rgba(255,255,255,.5));
 }
-
-.engrid-config{
-	color: #222244;
-}
 </style>
 <div class="engrid-container"></div>
 <div class='engrid-config' data-bind="visible: showConfig">
-	&nbsp Grid Formula: &nbsp<input type='text' size='50' id='sConfig' value='a=/bcd2/2e3f;f=/ghij/klm/o2p3qr;' data-bind="textInput: config" ></input>
+	<h2>Grid Formula: </h2><input type='text' size='50' id='sConfig' value='a=/bcd2/2e3f;f=/ghij/klm/o2p3qr;' data-bind="textInput: config" ></input>
 </div>
