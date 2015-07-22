@@ -4,7 +4,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 		var self = this;
 		self.element = componentInfo.element;
 		self.firstRender = ko.observable(true);
-		self.data = params.data;
+		self.data = params.data || ko.observable(null);
 
 		// list variable common to both render() and update()
 		
@@ -21,7 +21,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 
 		var pie = d3.layout.pie()
 			.sort(null)
-			.value(function(d) { return d.funding; });
+			.value(function(d) { return d.value; });
 
 		self.svg = d3.select(this.element).append("svg")
 			.attr("width", self.width)
@@ -60,7 +60,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				  .attr("dy", ".35em")
 				  .style("text-anchor", "middle")
-				  .text(function(d) { return d.data.center; });
+				  .text(function(d) { return d.data.name; });
 
 				  
 			this.firstRender(false);
@@ -82,7 +82,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
 				  .attr("dy", ".35em")
 				  .style("text-anchor", "middle")
-				  .text(function(d) { return d.data.center; });
+				  .text(function(d) { return d.data.name; });
 
 				
 		}

@@ -4,7 +4,7 @@ define(['jquery','knockout','text!./ranking-table.html','bootstrap','knockstrap'
 		
 		var self = this;
 		self.element = componentInfo.element;
-		self.data = params.data || ko.observable([{"label":"TC4","weighting":1,"weightedScore":421.2993279338273,"relativeScore":1},{"label":"TC2","weighting":1,"weightedScore":327.5547130794416,"relativeScore":0.7774869109947643},{"label":"TC1","weighting":1,"weightedScore":253.66189901774945,"relativeScore":0.6020942408376964},{"label":"TC3","weighting":1,"weightedScore":-84545.51094261589,"relativeScore":-200.6780104712042}]);
+		self.data = params.data || ko.observable(null);
 		self.extOld = params.old || ko.observable(null);
 		
 		self.updateExtOld = function(){

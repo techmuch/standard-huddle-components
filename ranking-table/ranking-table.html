@@ -23,7 +23,7 @@ th, td {
 			<td data-bind="text: ($index() + 1)"></td> 
             <td data-bind="text: label"></td>
             <td data-bind="progress: relativeScore"></td>
-			<td data-bind="text: change, style: { 'background-color': change < 0 ? 'darkred' : 'darkgreen' }"></td>
+			<td data-bind="text: change, style: { 'background-color': change < 0 ? 'darkred' : change > 0 ? 'darkgreen' : 'darkgray' }"></td>
         </tr>
     </tbody>
 </table>
