@@ -7,6 +7,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 		self.firstRender = ko.observable(true);
 		self.data = params.data;
 		self.color = params.color;
+		self.yAxis_name = params.yAxis;
 		
 		var margin = {top: 15, right: 15, bottom: 0, left: 65};
 		self.width = $(self.element.parentElement).width() - margin.left - margin.right;
@@ -159,7 +160,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				  .attr("y", -50)
 				  .attr("x", -$(".y.axis")[0].getBBox().height / 2)
 				  .attr("dy", ".71em")
-				  .text("$M (FY 2015)");
+				  .text(self.yAxis_name);
 
 			var xLabel = self.svg.selectAll(".xLabel")
 				  .data(data)
@@ -188,16 +189,25 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				  .attr("x", function(d, i) { 
 					//debugger
 					return self.x.rangeBand()/2; 
-				  }) 
-				  .text(function(d){
-					//debugger
-					return d.y1 - d.y0
 				  });
+
+				// use code below to label the bars
+				  // .text(function(d){
+					// //debugger
+					// return d.y1 - d.y0
+				  // });
 
 			self.svg.append("g")
 			  .attr("class", "x axis")
 			  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
-			  .call(self.xAxis);
+			  .call(self.xAxis)
+			  .selectAll("text")  
+				.style("text-anchor", "end")
+				.attr("dx", "-.8em")
+				.attr("dy", ".15em")
+				.attr("transform", function(d) {
+					return "rotate(-90)" 
+					});
 
 			  this.firstRender(false);
 		}
@@ -387,11 +397,11 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 						  .attr("x", function(d, i) { 
 							//debugger
 							return self.x.rangeBand()/2; 
-						  }) 
-						  .text(function(d){
-							//debugger
-							return d.y1 - d.y0
-						  });		
+						  }); 
+						  // .text(function(d){
+							// //debugger
+							// return d.y1 - d.y0
+						  // });		
 
 				 
 
