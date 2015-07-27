@@ -21,12 +21,6 @@ define(['knockout', 'text!./nav-bar.html'], function(ko, template) {
             };
         })
 
-       /* self.navbarWidth = ko.observable($('.navbar').width())
-
-        self.menuWidth = ko.computed(function() {
-            return self.navbarWidth() - $('.navbar-header').width() - 33 + 'px'
-        });*/
-
         self.toggleExperimentalMode = function(navBarViewModel, event) {
             if (event.ctrlKey) {
                 if (self.experimentalMode()) {
@@ -39,12 +33,7 @@ define(['knockout', 'text!./nav-bar.html'], function(ko, template) {
             }
         }
 
-        /*self.resizeHandle = $(window).resize(function() {
-            self.navbarWidth($('.navbar').width());
-        })*/
-
         self.dispose = function() {
-            /*self.resizeHandle.off();*/
         }
 
         return self
