@@ -1,0 +1,59 @@
+<style type="text/css">
+	network-simple svg {
+  background-color: #FFF;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+network-simple svg:not(.active):not(.ctrl) {
+  cursor: crosshair;
+}
+
+network-simple path.link {
+  fill: none;
+  stroke: #000;
+  stroke-width: 4px;
+  cursor: default;
+}
+
+network-simple svg:not(.active):not(.ctrl) path.link {
+  cursor: pointer;
+}
+
+network-simple path.link.selected {
+  stroke-dasharray: 10,2;
+}
+
+network-simple path.link.dragline {
+  pointer-events: none;
+}
+
+network-simple path.link.hidden {
+  stroke-width: 0;
+}
+
+network-simple circle.node {
+  stroke-width: 1.5px;
+  cursor: pointer;
+}
+
+network-simple circle.node.reflexive {
+  stroke: #000 !important;
+  stroke-width: 2.5px;
+}
+
+network-simple text {
+  font: 12px sans-serif;
+  pointer-events: none;
+}
+
+network-simple text.id {
+  text-anchor: middle;
+  font-weight: bold;
+}
+
+</style>
