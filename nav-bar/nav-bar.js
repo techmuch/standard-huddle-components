@@ -13,7 +13,7 @@ define(['knockout', 'text!./nav-bar.html'], function(ko, template) {
 
         self.compuTabs = ko.computed(function(){
             for (var i = 0; i < self.routes().length; i++) {
-                if(self.routes()[i].pullRight === true){
+                if(self.routes()[i].params.pullRight === true){
                     self.tabsRight.push(self.routes()[i]);
                 }else{
                     self.tabsLeft.push(self.routes()[i]);
