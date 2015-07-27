@@ -48,6 +48,8 @@ define(['knockout', 'knockout-projections'], function(ko) {
 
   ko.components.register('circle-pack', { require: 'standard-components/circle-pack/circle-pack' });
 
+  ko.components.register('network-simple', { require: 'standard-components/network-simple/network-simple' });
+
   //ko.components.register('color-selection', { require: 'standard-components/color-selection/color-selection' });
 
   ko.components.register('sequential-color-selector', { require: 'standard-components/sequential-color-selector/sequential-color-selector' });
