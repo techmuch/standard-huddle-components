@@ -5,7 +5,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
             var self = this;
             self.element = componentInfo.element;
             // remove all listeners on window
-            $(window).off('engrid-change');
+            //$(window).off('engrid-change');
 
             self.config = params.data.layout || ko.observable('a=/bcd2/2e3f;f=/ghij/klm/o2p3qr;');
             self.showConfig = params.data.showConfiguration || ko.observable(false);
@@ -13,6 +13,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
 
             self.showExpand = ko.observable(true)
             self.orinigalLayout = self.config();
+            self.lastConfig = self.config();
             self.fullsize = function(engrid, event) {
                 //if ($(event.toElement).parents('engrid-simple')[0] === $(self.element)[0]) {
                 var n = event.toElement.attributes['data-panel'].value
@@ -241,10 +242,12 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                     enGrid('grid-' + cLHS);
                 }
             }
+            self.processConfiguration();
 
-            var onConfigChange = ko.computed(function() {
-                if (self.config() !== '') {
+            self.onConfigChange = ko.computed(function() {
+                if (self.config() !== '' && self.config() !== self.lastConfig) {
                     //window.setTimeout(self.processConfiguration, 25);
+                    self.lastConfig = self.config();
                     self.processConfiguration();
                     $(window).trigger('engrid-change');
                     //$(window).trigger('resize')
@@ -279,6 +282,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
             self.dispose = function() {
                 self.resizeHandle.off();
                 self.toggleShowConfig.off();
+                self.onConfigChange.dispose();
             };
 
             return self;
