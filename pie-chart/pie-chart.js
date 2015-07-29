@@ -6,6 +6,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			self.element = componentInfo.element;
 			self.firstRender = ko.observable(true);
 			self.data = params.data || ko.observable(null);
+			
 			self.color = d3.scale.category10(); // can call tm to change colors
 						
 			self.render = function() {
