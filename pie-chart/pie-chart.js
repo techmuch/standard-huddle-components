@@ -7,14 +7,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			self.firstRender = ko.observable(true);
 			self.data = params.data || ko.observable(null);
 			self.color = d3.scale.category10(); // can call tm to change colors
-			
-
-			// list variable common to both render() and update()
-			self.svg = null;
-			self.width = null;
-			self.height = null;
-			
-			
+						
 			self.render = function() {
 				var data = self.data();
 				var color = self.color;
@@ -23,18 +16,6 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 				var radius = Math.min(self.width, self.height) / 2;
-				
-				self.svg = d3.select(this.element)
-							.append("svg")
-								.attr("width", self.width)
-								.attr("height", self.height)
-							.append("g");
-								
-								
-				// .attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")")
-				self.svg.append("g").attr("class", "slices")
-				self.svg.append("g").attr("class", "labels")
-				self.svg.append("g").attr("class", "lines");
 				
 				var pie = d3.layout.pie()
 					.sort(null)
@@ -48,9 +29,20 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 					.innerRadius(radius * 0.9)
 					.outerRadius(radius * 0.9);
 					
-				self.svg.attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")");
 					
 				var key = function(d){ return d.data.name; }
+				
+				self.svg = d3.select(this.element)
+							.append("svg")
+								.attr("width", self.width)
+								.attr("height", self.height)
+							.append("g");
+								
+				self.svg.append("g").attr("class", "slices")
+				self.svg.append("g").attr("class", "labels")
+				self.svg.append("g").attr("class", "lines");
+				
+				self.svg.attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")");
 				
 				/* ------- PIE SLICES -------*/
 				var slice = self.svg.select(".slices").selectAll("path.slice")
@@ -153,18 +145,6 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 				var radius = Math.min(self.width, self.height) / 2;
 				
-				self.svg = d3.select(this.element)
-							.append("svg")
-								.attr("width", self.width)
-								.attr("height", self.height)
-							.append("g");
-								
-								
-				// .attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")")
-				self.svg.append("g").attr("class", "slices")
-				self.svg.append("g").attr("class", "labels")
-				self.svg.append("g").attr("class", "lines");
-				
 				var pie = d3.layout.pie()
 					.sort(null)
 					.value(function(d) { return d.value; });
@@ -177,9 +157,9 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 					.innerRadius(radius * 0.9)
 					.outerRadius(radius * 0.9);
 					
-				self.svg.attr("transform", "translate(" + self.width / 2 + "," + self.height / 2 + ")");
 					
 				var key = function(d){ return d.data.name; }
+				
 				
 				/* ------- PIE SLICES -------*/
 				var slice = self.svg.select(".slices").selectAll("path.slice")
