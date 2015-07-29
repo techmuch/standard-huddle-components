@@ -48,23 +48,26 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				
 				var font_size = 10;
 				var tick_count = 5;
+				
 
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
 
-				var margin = {top: 15, right: 15, bottom: 0, left: 65};
-				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
-				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
+				var margin = {top: 15, right: 15, bottom: 0, left: 55};
 
 				// Determine whether to show legend
 				// Render legend if area to visualize in is at least 600px high
-				if (self.height < 600) {
+				if ($(self.element.parentElement).height() < 600) {
 					self.legend = false;
 				} else {
 					self.legend = true;
 					font_size = 16;
 					tick_count = 10;
+					margin = {top: 15, right: 15, bottom: 0, left: 75};
 				}
+
+				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
+				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 
 				self.svg = d3.select(self.element)
 								.append("svg")
