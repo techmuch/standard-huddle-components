@@ -162,7 +162,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .attr("transform", "rotate(-90)")
 					  .style("text-anchor", "middle")
 					  .attr("y", -50)
-					  .attr("x", -$(".y.axis")[0].getBBox().height / 2)
+					  .attr("x", -$(self.element).find(".y,.axis")[0].getBBox().height / 2)
 					  .attr("dy", ".71em")
 					  .text(self.yAxis_name);
 
