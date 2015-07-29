@@ -47,13 +47,14 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 			self.render = function() {
 				
 				var font_size = 10;
+				var tick_count = 5;
+
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
 
 				var margin = {top: 15, right: 15, bottom: 0, left: 65};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
-console.log(self.height,self.width);
 
 				// Determine whether to show legend
 				// Render legend if area to visualize in is at least 600px high
@@ -62,6 +63,7 @@ console.log(self.height,self.width);
 				} else {
 					self.legend = true;
 					font_size = 16;
+					tick_count = 10;
 				}
 
 				self.svg = d3.select(self.element)
@@ -166,7 +168,6 @@ console.log(self.height,self.width);
 				self.x = d3.scale.ordinal()
 					.rangeRoundBands([0, self.width], 0.15);
 
-console.log(self.height,legend_height);
 				self.y = d3.scale.linear()
 					.rangeRound([self.height - legend_height, 0]);
 
@@ -177,7 +178,7 @@ console.log(self.height,legend_height);
 				self.yAxis = d3.svg.axis()
 					.scale(self.y)
 					.orient("left")
-					.ticks(10);
+					.ticks(tick_count);
 
 				data.forEach(function(d) {
 					var y0 = 0;
@@ -205,7 +206,6 @@ console.log(self.height,legend_height);
 					  .attr("x", -$(".y-axis")[0].getBBox().height / 2)
 					  .attr("dy", ".71em")
 					  .text(self.yAxis_name);
-console.log("getBBox: ",$(".y-axis")[0].getBBox().height);
 
 				var xLabel = self.svg.selectAll(".xLabel")
 					  .data(data)
