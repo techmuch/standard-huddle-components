@@ -16,17 +16,56 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 			self.color = params.color;
 			self.yAxis_name = params.yAxis;
 
+			// Text wrapping function from:  http://bl.ocks.org/mbostock/7555321
+			function wrap(text, width) {
+				text.each(function() {
+					var text = d3.select(this),
+						words = text.text().split(/\s+/).reverse(),
+						word,
+						line = [],
+						lineNumber = 0,
+						lineHeight = 1.1, // ems
+						y = text.attr("y"),
+						dy = parseFloat(text.attr("dy")),
+						tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+					while (word = words.pop()) {
+						line.push(word);
+						tspan.text(line.join(" "));
+						if (tspan.node().getComputedTextLength() > width) {
+							line.pop();
+							tspan.text(line.join(" "));
+							line = [word];
+							tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+						}
+					}
+				});
+			}
+
 			// list variable common to both render() and update()
 			self.legend = true;
 
 			self.render = function() {
 				
+				var font_size = 10;
+				var tick_count = 5;
+
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
 
 				var margin = {top: 15, right: 15, bottom: 0, left: 65};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
+
+				// Determine whether to show legend
+				// Render legend if area to visualize in is at least 600px high
+				if (self.height < 600) {
+					self.legend = false;
+				} else {
+					self.legend = true;
+					font_size = 16;
+					tick_count = 10;
+				}
+
 				self.svg = d3.select(self.element)
 								.append("svg")
 									.attr("width", self.width + margin.left + margin.right)
@@ -118,12 +157,13 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 						}
 					}
 
-					legend_height = Math.round($("g.legend")[0].getBBox().height + 40)
+					legend_height = Math.round($("g.legend")[0].getBBox().height + 80)
 				} else {
-					legend_height = 25 // for padding
+					legend_height = 60 // for padding
 				}
 				//debugger
 				
+
 				//axes settings			
 				self.x = d3.scale.ordinal()
 					.rangeRoundBands([0, self.width], 0.15);
@@ -138,7 +178,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.yAxis = d3.svg.axis()
 					.scale(self.y)
 					.orient("left")
-					.ticks(10);
+					.ticks(tick_count);
 
 				data.forEach(function(d) {
 					var y0 = 0;
@@ -156,13 +196,15 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);
 
 				self.svg.append("g")
-					  .attr("class", "y axis")
+					  .attr("class", "y-axis")
 					  .call(self.yAxis)
 					.append("text")
 					  .attr("transform", "rotate(-90)")
 					  .style("text-anchor", "middle")
+					  .style("font-size",font_size)
 					  .attr("y", -50)
-					  .attr("x", -$(self.element).find(".y,.axis")[0].getBBox().height / 2)
+					  .attr("x", -$(self.element).find(".y-axis")[0].getBBox().height / 2)
+					  //.attr("x", -$(".y-axis")[0].getBBox().height / 2)
 					  .attr("dy", ".71em")
 					  .text(self.yAxis_name);
 
@@ -186,6 +228,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .data(function(d) { return d.programs; })
 					.enter().append("text")
 					  .attr("class", "label-text")
+					  .style("font-size",font_size)
 					  .attr("y", function(d) { 
 						//debugger
 						return self.y(d.y1) + (self.y(d.y0) - self.y(d.y1))/2; 
@@ -202,16 +245,13 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  // });
 
 				self.svg.append("g")
-				  .attr("class", "x axis")
+				  .attr("class", "x-axis")
 				  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
 				  .call(self.xAxis)
-				  .selectAll("text")  
-					.style("text-anchor", "end")
-					.attr("dx", "-.8em")
-					.attr("dy", ".15em")
-					.attr("transform", function(d) {
-						return "rotate(-90)" 
-						});
+				  .selectAll(".tick text")  
+					//.attr("dy", ".15em")
+					.style("font-size",font_size)
+					.call(wrap, self.x.rangeBand());
 						
 				data.forEach(function(d) {
 					delete d.programs;
@@ -373,7 +413,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				transition.select("g.y.axis").call(self.yAxis);
 
 				// self.svg.append("g")
-					  // .attr("class", "y axis")
+					  // .attr("class", "y-axis")
 					  // .call(self.yAxis)
 					// .append("text")
 					  // .attr("transform", "rotate(-90)")
