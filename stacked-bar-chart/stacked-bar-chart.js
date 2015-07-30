@@ -43,6 +43,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 
 			// list variable common to both render() and update()
 			self.legend = true;
+			var margin = {top: 15, right: 15, bottom: 0, left: 65};
 
 			self.render = function() {
 				
@@ -52,7 +53,6 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
 
-				var margin = {top: 15, right: 15, bottom: 0, left: 65};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 
@@ -263,23 +263,20 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 
 			self.update = function() {
 				var data = self.data();
-				
-				var margin = {top: 15, right: 15, bottom: 0, left: 65};
-				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
-				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
-				self.svg = d3.select(self.element)
-								.append("svg")
-									.attr("width", self.width + margin.left + margin.right)
-									.attr("height", self.height + margin.top + margin.bottom)
-								.append("g")
-									.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-				
-				// for (i in data) {
-					// delete data[i].programs;
-					// delete data[i].total;
-				// }
-				
 				var color = d3.scale.ordinal().range(self.color()[6]); 
+				
+				var font_size = 10;
+				var tick_count = 5;
+				
+				// Determine whether to show legend
+				// Render legend if area to visualize in is at least 600px high
+				if (self.height < 600) {
+					self.legend = false;
+				} else {
+					self.legend = true;
+					font_size = 16;
+					tick_count = 10;
+				}
 				
 				var transDuration = 2500;
 				//Define the transition (in ms)
@@ -390,27 +387,13 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				  });
 
 				//axes settings			
-				self.x = d3.scale.ordinal()
-					.rangeRoundBands([0, self.width], 0.15);
+
 				self.x.domain(data.map(function(d) { return d.xLabel; }));
-
-				self.y = d3.scale.linear()
-					.rangeRound([self.height - legend_height, 0]);
-				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);
-
-				self.xAxis = d3.svg.axis()
-					.scale(self.x)
-					.orient("bottom");
-
-				self.yAxis = d3.svg.axis()
-					.scale(self.y)
-					.orient("left")
-					.ticks(15); 
-				
+				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);			
 				
 				//apply the transition to the new axes
-				transition.select("g.x.axis").call(self.xAxis);
-				transition.select("g.y.axis").call(self.yAxis);
+				transition.select("g.x-axis").call(self.xAxis);
+				transition.select("g.y-axis").call(self.yAxis);
 
 				// self.svg.append("g")
 					  // .attr("class", "y-axis")
