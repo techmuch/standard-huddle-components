@@ -196,15 +196,14 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);
 
 				self.svg.append("g")
-					  .attr("class", "y-axis")
+					  .attr("class", "y axis")
 					  .call(self.yAxis)
 					.append("text")
 					  .attr("transform", "rotate(-90)")
 					  .style("text-anchor", "middle")
 					  .style("font-size",font_size)
 					  .attr("y", -50)
-					  .attr("x", -$(self.element).find(".y-axis")[0].getBBox().height / 2)
-					  //.attr("x", -$(".y-axis")[0].getBBox().height / 2)
+					  .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
 					  .attr("dy", ".71em")
 					  .text(self.yAxis_name);
 
@@ -245,7 +244,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  // });
 
 				self.svg.append("g")
-				  .attr("class", "x-axis")
+				  .attr("class", "x axis")
 				  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
 				  .call(self.xAxis)
 				  .selectAll(".tick text")  
@@ -393,16 +392,17 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				
 				//apply the transition to the new axes
 				transition.select("g.x-axis").call(self.xAxis);
-				transition.select("g.y-axis").call(self.yAxis);
+				transition.select("g.y-axis").call(self.yAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
+
 
 				// self.svg.append("g")
-					  // .attr("class", "y-axis")
+					  // .attr("class", "y axis")
 					  // .call(self.yAxis)
 					// .append("text")
 					  // .attr("transform", "rotate(-90)")
 					  // .style("text-anchor", "middle")
 					  // .attr("y", -50)
-					  // .attr("x", -$(".y.axis")[0].getBBox().height / 2)
+					  // .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
 					  // .attr("dy", ".71em")
 					  // .text("$M (FY 2015)");
 					  
