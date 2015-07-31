@@ -58,7 +58,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 
 				// Determine whether to show legend
 				// Render legend if area to visualize in is at least 600px high
-				if (self.height < 600) {
+				if (self.height < 300) {
 					self.legend = false;
 				} else {
 					self.legend = true;
@@ -195,7 +195,9 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.x.domain(data.map(function(d) { return d.xLabel; }));
 				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);
 
-				self.svg.append("g")
+
+				// Create the y axis
+				yAxis = self.svg.append("g")
 					  .attr("class", "y axis")
 					  .call(self.yAxis)
 					.append("text")
@@ -204,8 +206,34 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .style("font-size",font_size)
 					  .attr("y", -50)
 					  .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
-					  .attr("dy", ".71em")
+					  .attr("dy", ".32em")
 					  .text(self.yAxis_name);
+
+				yAxis = self.svg.selectAll(".y.axis");
+				yAxis.selectAll(".tick text")
+					  .style("font-size",font_size);
+
+				// Create the x axis
+				xAxis = self.svg.append("g")
+					  .attr("class", "x axis")
+					  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
+					  .call(self.xAxis)
+					.append("text")
+					  .style("text-anchor", "middle")
+					  .style("font-size",font_size)
+					  .attr("y", 10)
+					  .attr("x", $(self.element).find(".x.axis")[0].getBBox().height / 2)
+					  .attr("dy", ".71em")
+					  .text(self.xAxis_name);
+
+
+				xAxis = self.svg.selectAll(".x.axis");
+				xAxis.selectAll(".tick text")
+					  .style("font-size",font_size)
+					  .call(wrap, self.x.rangeBand());
+
+
+
 
 				var xLabel = self.svg.selectAll(".xLabel")
 					  .data(data)
@@ -242,15 +270,6 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 						// //debugger
 						// return d.y1 - d.y0
 					  // });
-
-				self.svg.append("g")
-				  .attr("class", "x axis")
-				  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
-				  .call(self.xAxis)
-				  .selectAll(".tick text")  
-					//.attr("dy", ".15em")
-					.style("font-size",font_size)
-					.call(wrap, self.x.rangeBand());
 						
 				data.forEach(function(d) {
 					delete d.programs;
@@ -269,7 +288,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				
 				// Determine whether to show legend
 				// Render legend if area to visualize in is at least 600px high
-				if (self.height < 600) {
+				if (self.height < 300) {
 					self.legend = false;
 				} else {
 					self.legend = true;
@@ -391,9 +410,9 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);			
 				
 				//apply the transition to the new axes
-				//transition.select("g, .x, .axis").call(self.xAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
-				transition.select("g, .x, .axis").call(self.xAxis);
-				transition.select("g, .y, .axis").call(self.yAxis);
+				transition.select("g.x.axis").call(self.xAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
+				//transition.select("g.x.axis").call(self.xAxis);
+				transition.select("g.y.axis").call(self.yAxis);
 
 
 				// self.svg.append("g")
@@ -427,9 +446,9 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 						  .attr("height", function(d) { return self.y(d.y0) - self.y(d.y1); })
 						  .style("fill", function(d) { return color(d.name); });	  
 				
-				
 				// labeling of the bars with the corresponding values
-				var text = self.svg.selectAll("g.g text");
+				/**********
+				var text = self.svg.selectAll("g, g text");
 				text.data(formatted_data);
 				text.transition().duration(transDuration)
 						.attr("class", "label-text")
@@ -444,8 +463,9 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 							  // .text(function(d){
 								// //debugger
 								// return d.y1 - d.y0
-							  // });		
-				
+							  // });
+				**********/		
+
 				data.forEach(function(d) {
 					delete d.programs;
 					delete d.total;
