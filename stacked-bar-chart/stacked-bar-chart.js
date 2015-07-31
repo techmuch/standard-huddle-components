@@ -391,8 +391,9 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				self.y.domain([0, d3.max(data, function(d) { return d.total; })*1.05]);			
 				
 				//apply the transition to the new axes
-				transition.select("g.x-axis").call(self.xAxis);
-				transition.select("g.y-axis").call(self.yAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
+				//transition.select("g, .x, .axis").call(self.xAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
+				transition.select("g, .x, .axis").call(self.xAxis);
+				transition.select("g, .y, .axis").call(self.yAxis);
 
 
 				// self.svg.append("g")
