@@ -395,7 +395,6 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				transition.select("g, .x, .axis").call(self.xAxis);
 				transition.select("g, .y, .axis").call(self.yAxis);
 
-
 				// self.svg.append("g")
 					  // .attr("class", "y axis")
 					  // .call(self.yAxis)
