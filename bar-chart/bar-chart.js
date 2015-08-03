@@ -18,16 +18,19 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 			self.yAxis = null;
 			self.yAxis_name = params.yAxis;
 			self.svg = null;
+			var margin = {top: 20, right: 20, bottom: 50, left: 60};
 
 			//debugger;
 
 			self.render = function() {
+				
+				var font_size = 10;
+				
 				var data = self.data();
 				//var color = d3.scale.ordinal().range(self.color()[6]);
 				var color = d3.scale.ordinal().range(self.color()[6]);
 				//console.log('test render'); // test
 				
-				var margin = {top: 20, right: 20, bottom: 50, left: 60};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 
@@ -57,10 +60,10 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 					  .selectAll("text")  
 						.style("text-anchor", "end")
 						.attr("dx", "-.8em")
-						.attr("dy", ".15em")
-						.attr("transform", function(d) {
-							return "rotate(-45)" 
-							});
+						.attr("dy", ".15em");
+						// .attr("transform", function(d) {
+							// return "rotate(-45)" 
+							// });
 
 
 				self.svg.append("g")
@@ -70,19 +73,9 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 					  .attr("transform", "rotate(-90)")
 					  .style("text-anchor", "middle")
 					  .attr("y", -50)
-					  .attr("x", -$(".y.axis")[0].getBBox().height / 2)
+					   .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
 					  .attr("dy", ".71em")
 					  .text(self.yAxis_name);
-
-	/* 			  self.svg.append("g")
-					  .attr("class", "y axis")
-					  .call(self.yAxis)
-					.append("text")
-					  .attr("transform", "rotate(-90)")
-					  .attr("y", 6)
-					  .attr("dy", ".71em")
-					  .style("text-anchor", "end")
-					  .text("Number of TCs"); */
 
 				  self.svg.selectAll(".bar")
 					  .data(data)
@@ -104,12 +97,12 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 
 
 			self.update = function update() {
+				
+				var font_size = 10;
+				
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
-				//var color = d3.scale.ordinal().range(self.color);
-				//console.log('test update');
-				
-				var margin = {top: 20, right: 20, bottom: 50, left: 60};
+
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 
@@ -151,40 +144,6 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 					  .attr("height", function(data) { return self.height - self.y(data.value); })
 					  .attr("fill", function(data,i) { return color(i); });;
 
-				// self.svg = d3.select(self.element).append("svg")
-					// .attr("width", width + margin.left + margin.right)
-					// .attr("height", height + margin.top + margin.bottom)
-				  // .append("g")
-					// .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-				  // self.svg.append("g")
-					  // .attr("class", "x axis")
-					  // .attr("transform", "translate(0," + height + ")")
-					  // .call(self.xAxis);
-
-				  // self.svg.append("g")
-					  // .attr("class", "y axis")
-					  // .call(self.yAxis)
-					// .append("text")
-					  // .attr("transform", "rotate(-90)")
-					  // .attr("y", 6)
-					  // .attr("dy", ".71em")
-					  // .style("text-anchor", "end")
-					  // .text("Number of TCs");
-
-				  // self.svg.selectAll(".bar")
-					  // .data(data)
-					// .enter().append("rect")
-					  // .attr("class", "bar")
-					  // .attr("x", function(data) { return self.x(data.name); })
-					  // .attr("width",self.x.rangeBand())
-					  // .attr("y", function(data) { return self.y(data.value); })
-					  // .attr("height", function(data) { return height - self.y(data.value); });
-
-					// function type(data) {
-					  // data.value = +data.value;
-					  // return data;
-						// }
 			}
 			
 			self.rerender = function() {
