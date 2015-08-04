@@ -197,7 +197,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 
 
 				// Create the y axis
-				yAxis = self.svg.append("g")
+				self.svg.append("g")
 					  .attr("class", "y axis")
 					  .call(self.yAxis)
 					.append("text")
@@ -207,6 +207,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .attr("y", -50)
 					  .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
 					  .attr("dy", ".32em")
+					  //.attr("dy", ".71em")
 					  .text(self.yAxis_name);
 
 				yAxis = self.svg.selectAll(".y.axis");
@@ -214,7 +215,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .style("font-size",font_size);
 
 				// Create the x axis
-				xAxis = self.svg.append("g")
+				self.svg.append("g")
 					  .attr("class", "x axis")
 					  .attr("transform", "translate(0," + (+self.height - legend_height) + ")")
 					  .call(self.xAxis)
