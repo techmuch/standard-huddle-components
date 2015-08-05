@@ -1,4 +1,4 @@
-define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
+define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function(ko, templateMarkup, $) {
 
     function EngridSimple(params, componentInfo) {
         var vm = function(params) {
@@ -86,6 +86,23 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
             }
             $(self.element).find('.engrid-container').html(self.divGenerator());
 
+            var lastZIndex = 1;
+            $('engrid-simple .grid').draggable({
+              start: function( event, ui ) {
+                lastZIndex = lastZIndex + 1;
+                $(event.target).zIndex(lastZIndex);
+              },
+              stop: function( event, ui ) {
+              }
+            }).resizable({
+              start: function( event, ui ) {
+                lastZIndex = lastZIndex + 1;
+                $(event.target).zIndex(lastZIndex);
+              },
+              stop: function( event, ui ) {
+              }
+            });
+
             self.resize = function() {
                 var currentAncestor = $(self.element).parent();
                 var sizeFound = false;
@@ -135,8 +152,8 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                     fSumCol[i] = 0;
                     for (j = 0; j < nCol[i]; j++) {
                         $(self.element).find('.grid-' + idCol[i][j]).css('height', (mHeight * fRow[i] / fSumRow) + 'px');
-                        $(self.element).find('.grid-' + idCol[i][j] + ' div.tile').css('height', (mHeight * fRow[i] / fSumRow) - (20) + 'px'); // added by df to set height of panels
-                        $(self.element).find('.grid-' + idCol[i][j] + ' div.panel-body').css('height', (mHeight * fRow[i] / fSumRow) - (20) - 50 + 'px'); // added by df to set height of panels
+                        //$(self.element).find('.grid-' + idCol[i][j] + ' div.tile').css('height', (mHeight * fRow[i] / fSumRow) - (20) + 'px'); // added by df to set height of panels
+                        //$(self.element).find('.grid-' + idCol[i][j] + ' div.panel-body').css('height', (mHeight * fRow[i] / fSumRow) - (20) - 50 + 'px'); // added by df to set height of panels
                         fSumCol[i] += fCol[i][j];
                     }
                     for (j = 0; j < nCol[i]; j++) {
@@ -254,8 +271,8 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                 }
             })
 
-            self.resizeHandle = $(window).resize(function() {
-                if (self.config() !== '') {
+            self.resizeHandle = $(window).resize(function(event, ui) {
+                if (self.config() !== '' && typeof ui === 'undefined') {
                     self.resize();
                     self.processConfiguration();
                 }
@@ -283,6 +300,7 @@ define(['knockout', 'text!./engrid-simple.html'], function(ko, templateMarkup) {
                 self.resizeHandle.off();
                 self.toggleShowConfig.off();
                 self.onConfigChange.dispose();
+                $('engrid-simple .grid').draggable('destroy').resizable( "destroy" );
             };
 
             return self;
