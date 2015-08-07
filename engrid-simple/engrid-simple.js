@@ -57,7 +57,7 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
                         var c = c1 + c2;
                         if (typeof self.content[tags[i]].scroll === 'function' && self.content[tags[i]].scroll()) { // use scrollbars
                             var sb = 'overflow: auto';
-                        }else{
+                        } else {
                             var sb = 'overflow: hidden';
                         }
                         if (typeof self.content[tags[i]].doc === 'function' && self.content[tags[i]].doc() !== '') { // layout for documentation
@@ -74,7 +74,7 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
 
                         if (typeof self.content[tags[i]].title === 'function' && self.content[tags[i]].title() !== '') { // a non-blank title triggers the panels to display
                             var t = self.content[tags[i]].title()
-                            c = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">' + t + '<span class="glyphicon pull-right" aria-hidden="true" data-panel="' + tags[i] + '" data-bind="click: fullsize, css: {\'glyphicon-resize-full\': showExpand(), \'glyphicon-resize-small\': !showExpand()}"></span>' + f_html + d_html + '</h3></div><div class="panel-body" style="'+sb+'">' + c + '</div></div>';
+                            c = '<div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title"><span class="panel-title-text"> ' + t + ' </span><span class="glyphicon pull-right panel-title-icon" aria-hidden="true" data-panel="' + tags[i] + '" data-bind="click: fullsize, css: {\'glyphicon-resize-full\': showExpand(), \'glyphicon-resize-small\': !showExpand()}"></span>' + f_html + d_html + '</h3></div><div class="panel-body" style="' + sb + '">' + c + '</div></div>';
                         }
                     } else {
                         //c = self.showConfig() ? '<h1>' + tags[i] + '</h1>' : '';
@@ -87,20 +87,49 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
             $(self.element).find('.engrid-container').html(self.divGenerator());
 
             var lastZIndex = 1;
-            $('engrid-simple .grid').draggable({
-              start: function( event, ui ) {
-                lastZIndex = lastZIndex + 1;
-                $(event.target).zIndex(lastZIndex);
-              },
-              stop: function( event, ui ) {
-              }
+            $(self.element).find('.grid').draggable({
+                start: function(event, ui) {
+                    lastZIndex = lastZIndex + 1;
+                    $(event.target).zIndex(lastZIndex);
+                },
+                stop: function(event, ui) {
+                    var target = event.target;
+                    var rightSide = $(target).offset().left + $(target).width();
+                    var leftSide = $(target).offset().left;
+                    var screenWidth = $(document).width();
+                    if(screenWidth - rightSide <= 1){
+                        $(target).css('top', '0px').css('height', '100%').css('width', '50%').css('left', '50%');
+                    }
+                    if(leftSide <= 1){
+                        $(target).css('top', '0px').css('height', '100%').css('width', '50%').css('left', '0px');
+                    }
+                    $(self.element).find('.snap-to-right').css('visibility', 'hidden');
+                    $(self.element).find('.snap-to-left').css('visibility', 'hidden');
+                    $(window).trigger('engrid-change');
+                },
+                drag: function(event, ui){
+                    var target = event.target;
+                    var rightSide = $(target).offset().left + $(target).width();
+                    var leftSide = $(target).offset().left;
+                    var screenWidth = $(document).width();
+                    if(screenWidth - rightSide <= 1){
+                        $(self.element).find('.snap-to-right').css('visibility', 'visible');
+                    }else{
+                        $(self.element).find('.snap-to-right').css('visibility', 'hidden');
+                    }
+                    if(leftSide <= 1){
+                        $(self.element).find('.snap-to-left').css('visibility', 'visible');
+                    }else{
+                        $(self.element).find('.snap-to-left').css('visibility', 'hidden');
+                    }
+                }
             }).resizable({
-              start: function( event, ui ) {
-                lastZIndex = lastZIndex + 1;
-                $(event.target).zIndex(lastZIndex);
-              },
-              stop: function( event, ui ) {
-              }
+                start: function(event, ui) {
+                    lastZIndex = lastZIndex + 1;
+                    $(event.target).zIndex(lastZIndex);
+                },
+                stop: function(event, ui) {},
+                handles: "all"
             });
 
             self.resize = function() {
@@ -152,12 +181,12 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
                     fSumCol[i] = 0;
                     for (j = 0; j < nCol[i]; j++) {
                         $(self.element).find('.grid-' + idCol[i][j]).css('height', (mHeight * fRow[i] / fSumRow) + 'px');
-                        //$(self.element).find('.grid-' + idCol[i][j] + ' div.tile').css('height', (mHeight * fRow[i] / fSumRow) - (20) + 'px'); // added by df to set height of panels
-                        //$(self.element).find('.grid-' + idCol[i][j] + ' div.panel-body').css('height', (mHeight * fRow[i] / fSumRow) - (20) - 50 + 'px'); // added by df to set height of panels
+                        $(self.element).find('.grid-' + idCol[i][j]).attr('originHeight', (mHeight * fRow[i] / fSumRow) + 'px');
                         fSumCol[i] += fCol[i][j];
                     }
                     for (j = 0; j < nCol[i]; j++) {
                         $(self.element).find('.grid-' + idCol[i][j]).css('width', (mWidth * fCol[i][j] / fSumCol[i]) + 'px');
+                        $(self.element).find('.grid-' + idCol[i][j]).attr('originWidth', (mWidth * fCol[i][j] / fSumCol[i]) + 'px');
                     }
                 }
                 var top0 = mTop;
@@ -167,24 +196,32 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
                 var pWidth;
                 $(self.element).find('.grid-' + idCol[0][0]).css('top', top0 + 'px');
                 $(self.element).find('.grid-' + idCol[0][0]).css('left', left0 + 'px');
+                $(self.element).find('.grid-' + idCol[0][0]).attr('originTop', top0 + 'px');
+                $(self.element).find('.grid-' + idCol[0][0]).attr('originLeft', left0 + 'px');
                 for (j = 1; j < nCol[0]; j++) {
                     pGrid = $(self.element).find('.grid-' + idCol[0][j - 1]);
                     pLeft = parseInt(pGrid.position().left);
                     pWidth = parseInt(pGrid.width());
                     $(self.element).find('.grid-' + idCol[0][j]).css('top', top0 + 'px');
                     $(self.element).find('.grid-' + idCol[0][j]).css('left', pLeft + pWidth + 'px');
+                    $(self.element).find('.grid-' + idCol[0][j]).attr('originTop', top0 + 'px');
+                    $(self.element).find('.grid-' + idCol[0][j]).attr('originLeft', pLeft + pWidth + 'px');
                 }
                 for (i = 1; i < nRow; i++) {
                     top0 = parseInt($(self.element).find('.grid-' + idCol[i - 1][0]).position().top);
                     top0 += parseInt($(self.element).find('.grid-' + idCol[i - 1][0]).height());
                     $(self.element).find('.grid-' + idCol[i][0]).css('top', top0 + 'px');
                     $(self.element).find('.grid-' + idCol[i][0]).css('left', left0 + 'px');
+                    $(self.element).find('.grid-' + idCol[i][0]).attr('originTop', top0 + 'px');
+                    $(self.element).find('.grid-' + idCol[i][0]).attr('originLeft', left0 + 'px');
                     for (j = 1; j < nCol[i]; j++) {
                         pGrid = $(self.element).find('.grid-' + idCol[i][j - 1]);
                         pLeft = parseInt(pGrid.position().left);
                         pWidth = parseInt(pGrid.width());
                         $(self.element).find('.grid-' + idCol[i][j]).css('top', top0 + 'px');
                         $(self.element).find('.grid-' + idCol[i][j]).css('left', pLeft + pWidth + 'px');
+                        $(self.element).find('.grid-' + idCol[i][j]).attr('originTop', top0 + 'px');
+                        $(self.element).find('.grid-' + idCol[i][j]).attr('originLeft', pLeft + pWidth + 'px');
                     }
                 }
                 for (i = 0; i < nRow; i++) {
@@ -294,13 +331,23 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
 
             })
 
+            self.dblClick = $('engrid-simple .grid').dblclick(function(event) {
+                var currentTarget = event.currentTarget;
+                $(currentTarget).css('top', $(currentTarget).attr('originTop'))
+                $(currentTarget).css('left', $(currentTarget).attr('originLeft'))
+                $(currentTarget).css('height', $(currentTarget).attr('originHeight'))
+                $(currentTarget).css('width', $(currentTarget).attr('originWidth'))
+                $(window).trigger('engrid-change');
+            });
+
             // This runs when the component is torn down. Put here any logic necessary to clean up,
             // for example cancelling setTimeouts or disposing Knockout subscriptions/computeds.
             self.dispose = function() {
                 self.resizeHandle.off();
                 self.toggleShowConfig.off();
+                self.dblClick.off();
                 self.onConfigChange.dispose();
-                $('engrid-simple .grid').draggable('destroy').resizable( "destroy" );
+                $(self.element).find('.grid').draggable('destroy').resizable("destroy");
             };
 
             return self;

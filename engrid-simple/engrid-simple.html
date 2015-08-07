@@ -1310,8 +1310,59 @@ h1.config-tile-label{
 	height: 100%;
 	overflow: hidden;
 }
+
+.panel-heading{
+	max-height: 5em;
+	overflow: hidden;
+}
+
+.panel-title-text{
+  width: auto;
+  position: absolute;
+  left: 25px;
+  right: 55px;
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.panel-title-icon{
+	background-color: inherit;
+}
+
+.panel-title{
+	font-size: 1.5em;
+}
+
+.snap-to-right{
+	z-index: 9999;
+	visibility: hidden;
+	background-color: rgba(255, 174, 0, 0.31);
+	border: 1px dotted darkgray;
+	position: absolute;
+	height: auto;
+	width: 50%;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+}
+
+.snap-to-left{
+	z-index: 9999;
+	visibility: hidden;
+	background-color: rgba(255, 174, 0, 0.31);
+	border: 1px dotted darkgray;
+	position: absolute;
+	height: auto;
+	width: 50%;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+}
+
 </style>
 <div class="engrid-container"></div>
 <div class='engrid-config' data-bind="visible: showConfig">
 	<h2>Grid Formula: </h2><input type='text' size='50' id='sConfig' value='a=/bcd2/2e3f;f=/ghij/klm/o2p3qr;' data-bind="textInput: config" ></input>
 </div>
+<div class="snap-to-right"></div>
+<div class="snap-to-left"></div>
