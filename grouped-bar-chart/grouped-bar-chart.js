@@ -27,7 +27,7 @@ define(['jquery', 'knockout', 'd3', 'text!./grouped-bar-chart.html'], function($
 				
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[10]);
-				
+				color.range(tm.selectedColorsStackedBarChart()[8]);
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 				

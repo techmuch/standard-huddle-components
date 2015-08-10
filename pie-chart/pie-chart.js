@@ -13,7 +13,8 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			self.render = function() {
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[9]);
-				
+				color.range(tm.selectedColorsPieChart()[8]);
+				//console.log(
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
