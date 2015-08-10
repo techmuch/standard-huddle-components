@@ -122,7 +122,8 @@ define(['knockout', 'text!./engrid-simple.html', 'jquery', 'jqueryui'], function
                     }else{
                         $(self.element).find('.snap-to-left').css('visibility', 'hidden');
                     }
-                }
+                },
+                handle: '.panel-heading'
             }).resizable({
                 start: function(event, ui) {
                     lastZIndex = lastZIndex + 1;
