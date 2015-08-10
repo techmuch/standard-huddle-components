@@ -7,11 +7,12 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			self.firstRender = ko.observable(true);
 			self.data = params.data || ko.observable(null);
 			
-			self.color = d3.scale.category10(); // can call tm to change colors
+			self.color = params.color; // can call tm to change colors
+			
 						
 			self.render = function() {
 				var data = self.data();
-				var color = self.color;
+				var color = d3.scale.ordinal().range(self.color()[9]);
 				
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
@@ -139,7 +140,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			
 			self.update = function() {
 				var data = self.data();
-				var color = self.color;
+				var color = d3.scale.ordinal().range(self.color()[9]);
 				
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;

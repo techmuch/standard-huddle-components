@@ -6,9 +6,6 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 			self.element = componentInfo.element;
 			self.firstRender = ko.observable(true);
 			self.data = params.data || ko.observable(null);
-			//self.color = params.color;
-			// test with settings table in db
-			//self.color = JSON.parse(params.color());
 			self.color = params.color;
 			
 			// list variable common to both render() and update()
@@ -19,6 +16,8 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 			self.yAxis_name = params.yAxis;
 			self.svg = null;
 			var margin = {top: 20, right: 20, bottom: 50, left: 60};
+			
+			var color = self.color()[6][4];
 
 			//debugger;
 
@@ -27,9 +26,6 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 				var font_size = 10;
 				
 				var data = self.data();
-				//var color = d3.scale.ordinal().range(self.color()[6]);
-				var color = d3.scale.ordinal().range(self.color()[6]);
-				//console.log('test render'); // test
 				
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
@@ -85,7 +81,7 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 					  .attr("width",self.x.rangeBand())
 					  .attr("y", function(data) { return self.y(data.value); })
 					  .attr("height", function(data) { return self.height - self.y(data.value); })
-					  .attr("fill", function(data,i) { return color(i); });
+					  .attr("fill", function(data,i) { return color; }); 
 
 					function type(data) {
 					  data.value = +data.value;
@@ -101,7 +97,6 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 				var font_size = 10;
 				
 				var data = self.data();
-				var color = d3.scale.ordinal().range(self.color()[6]);
 
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
@@ -142,7 +137,7 @@ define(['jquery', 'knockout', 'd3', 'text!./bar-chart.html'], function($, ko, d3
 					  .attr("width",self.x.rangeBand())
 					  .attr("y", function(data) { return self.y(data.value); })
 					  .attr("height", function(data) { return self.height - self.y(data.value); })
-					  .attr("fill", function(data,i) { return color(i); });;
+					  .attr("fill", function(data,i) { return color; }); 
 
 			}
 			
