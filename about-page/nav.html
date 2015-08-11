@@ -1,15 +1,15 @@
 <style type="text/css">
 	.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
-	  color: #fff;
-	  background-color: #4466bb;
+		color: #fff;
+		background-color: #4466bb;
 	}
 	a:visited {
-	  color: rgb(113, 113, 113);
+		color: rgb(113, 113, 113);
 	}
 	a:link {
-	  color: rgb(113, 113, 113);
+		color: rgb(113, 113, 113);
 	}
 </style>
 <ul class="nav nav-pills nav-stacked" role="tablist" data-bind="foreach: doc.documentation">
-  <li role="presentation" class="active" data-bind="css: {active: $index() === 0}"><a href="#overview" aria-controls="overview" role="tab" data-toggle="tab" data-bind="html: label, attr: {href: '#'+id, 'aria-controls': id}"></a></li>
+	<li role="presentation" class="active" data-bind="css: {active: $index() === 0}"><a href="#overview" aria-controls="overview" role="tab" data-toggle="tab" data-bind="html: label, attr: {href: '#'+id, 'aria-controls': id}"></a></li>
 </ul>

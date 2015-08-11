@@ -1,29 +1,29 @@
 <style type="text/css">
-    ranking-table table{
-    border-collapse: collapse;
-    width: 100%;
+	ranking-table table{
+	border-collapse: collapse;
+	width: 100%;
 }
 
 table, th, td {
-    border: 1px solid black;
+	border: 1px solid black;
 }
 
 th, td {
-    text-align: center;
-    padding: 5px;
+	text-align: center;
+	padding: 5px;
 }
 </style>
 
 <table>
-    <thead>
-        <tr><th>Line</th><th>TCs</th><th>Score</th><th>Change <button class="pull-right" data-bind="click: updateExtOld">Reset</button></th></tr>
-    </thead>
-    <tbody data-bind="foreach: table">
-        <tr>
+	<thead>
+		<tr><th>Line</th><th>TCs</th><th>Score</th><th>Change <button class="pull-right" data-bind="click: updateExtOld">Reset</button></th></tr>
+	</thead>
+	<tbody data-bind="foreach: table">
+		<tr>
 			<td data-bind="text: ($index() + 1)"></td> 
-            <td data-bind="text: label"></td>
-            <td data-bind="progress: relativeScore"></td>
+			<td data-bind="text: label"></td>
+			<td data-bind="progress: relativeScore"></td>
 			<td data-bind="text: change, style: { 'background-color': change < 0 ? 'darkred' : change > 0 ? 'darkgreen' : 'darkgray' }"></td>
-        </tr>
-    </tbody>
+		</tr>
+	</tbody>
 </table>

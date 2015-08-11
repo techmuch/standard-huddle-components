@@ -21,10 +21,10 @@ function updateFunction(){
 	circles
 	.transition().duration(1000)
 	.attr({
-	    cx: function(d) { return x(+d[xAxisLabel]); },
-	    cy: function(d) { return y(+d[yAxisLabel]); },
-	    r: 8,
-	    id: function(d) { return d.techChall; }
-	  })
-	  
+			cx: function(d) { return x(+d[xAxisLabel]); },
+			cy: function(d) { return y(+d[yAxisLabel]); },
+			r: 8,
+			id: function(d) { return d.techChall; }
+		})
+		
 };

@@ -1,15 +1,15 @@
 grouped-bar-chart {
-  font: 10px sans-serif;
+	font: 10px sans-serif;
 }
 
 grouped-bar-chart g path,
 grouped-bar-chart line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
 }
 
 grouped-bar-chart g rect{
-	stroke:  black;
+	stroke:	 black;
 	shape-rendering: crispEdges;
 }

@@ -2,14 +2,14 @@ sequential-color-selector {
 }
 
 .seq-palette {
-  cursor: pointer;
-  display: inline-block;
-  padding: 5px;
+	cursor: pointer;
+	display: inline-block;
+	padding: 5px;
 }
 
 .seq-swatch {
-  display: inline-block;
-  vertical-align: middle;
-  width: 10px;
-  height: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	width: 10px;
+	height: 10px;
 }
