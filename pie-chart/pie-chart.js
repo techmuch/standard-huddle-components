@@ -7,9 +7,11 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			self.firstRender = ko.observable(true);
 			self.data = params.data || ko.observable(null);
 			
-			self.color = d3.scale.category10(); // can call tm to change colors
+			self.color = params.color; // can call tm to change colors
+			
 						
 			self.render = function() {
+//<<<<< HEAD
 				var slice_count = 0;
 				var current = 0.0;
 				var data2 = self.data();
@@ -17,6 +19,12 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				var font_size;
 console.log(data2);
 				
+//=====
+				var data = self.data();
+				var color = d3.scale.ordinal().range(self.color()[9]);
+				color.range(tm.selectedColorsPieChart()[8]);
+				//console.log(
+//>>>>>> 04e7681289b088f74408b4fe44b1da2f3e3c050b
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
@@ -177,12 +185,17 @@ console.log("2: ",d.data,d.value,pos);
 			}
 			
 			self.update = function() {
+//<<<<<<< HEAD
 				var slice_count = 0;
 				var current = 0.0;
 				var data2 = self.data();
 				var data = [];
 				var font_size;
 console.log(data2);
+//=======
+				var data = self.data();
+				var color = d3.scale.ordinal().range(self.color()[9]);
+//>>>>> 04e7681289b088f74408b4fe44b1da2f3e3c050b
 				
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;

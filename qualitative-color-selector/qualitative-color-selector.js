@@ -9,7 +9,10 @@ define(['jquery', 'knockout', 'd3', 'text!./qualitative-color-selector.html'], f
 					.attr("class", "qual-palette")
 					.attr("title", function(d) { return d.key; })
 					.on("click", function(d) { 
-						tm.selectedColors(d.value);
+						tm.selectedColorsStackedBarChart(d.value);
+						tm.selectedColorsGroupedBarChart(d.value);
+						tm.selectedColorsPieChart(d.value);
+						tm.selectedColorsBarChart(d.value);
 					})
 					.selectAll(".qual-swatch")
 					.data(function(d) { return d.value[d3.keys(d.value).map(Number).sort(d3.descending)[0]]; })

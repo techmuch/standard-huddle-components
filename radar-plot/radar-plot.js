@@ -9,14 +9,14 @@ define(['jquery', 'knockout', 'd3', 'text!./radar-plot.html'], function($, ko, d
 
 		// list variable common to both render() and update()
 		self.svg = null;
-		self.width = $(self.element.parentElement).width();
-		self.height = $(self.element.parentElement).height();
-		self.radiusRadar=Math.min(self.width,  self.height)-3;
+
 		//debugger;
 
 		self.render = function() {
 
-		
+				self.width = $(self.element.parentElement).width();
+		self.height = $(self.element.parentElement).height();
+		self.radiusRadar=Math.min(self.width,  self.height)-4;
 		var RadarChart = {
   defaultConfig: {
     containerClass: 'radar-chart',
@@ -390,6 +390,18 @@ cfg = chart.config();
 
 		}
 
+		self.rerender = function() {
+                $(self.element).find('svg').remove();
+                self.render();
+            }
+
+            self.engridChangeHandle = $(window).on('engrid-change', function() {
+                self.rerender()
+            });
+            self.resizeHandle = $(window).on('resize', function() {
+                self.rerender()
+            });
+		
 		self.reactor = ko.computed(function() {
 			var data = self.data();
 			//debugger;

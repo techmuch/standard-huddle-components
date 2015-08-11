@@ -3,6 +3,30 @@
   follows Bootstrap conventions. The only Knockout-specific parts are the data-bind
   attributes on the <li> elements.
 -->
+<style scoped type="text/css">
+  .navbar{
+    min-height: 3em;
+    max-height: 50px;
+  }
+
+  .navbar-brand{
+    font-size: 3em;
+    height: 1em;
+    max-height: 50px;
+  }
+
+  .navbar-nav>li>a {
+  /*padding-top: .5em;
+  padding-bottom: .5em;*/
+  /*line-height: 1.5em;*/
+  font-size: 1.3em;
+}
+
+body > nav-bar > div > div > div.collapse.navbar-collapse > ul.nav.navbar-nav.pull-right > li > a > span{
+
+}
+
+</style>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -20,9 +44,17 @@
           <a href="#" data-bind="attr: {href: '#'+url}, html: label">Home</a>
         </li>
       </ul>
-      <ul class="nav navbar-nav pull-right" data-bind="foreach: tabsRight">
+      <!-- <ul class="nav navbar-nav pull-right" data-bind="foreach: tabsRight">
         <li data-bind="css: { active: params.page === $parent.route().page, 'pull-right': params.pullRight }, visible: visible">
           <a href="#" data-bind="attr: {href: '#'+url}, html: label">Home</a>
+        </li>
+      </ul> -->
+      <ul class="nav navbar-nav pull-right " data-bind="foreach: tabsRight">
+        <li class="dropdown" data-bind="css: {'pull-right': params.pullRight }, visible: visible">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-bind="html: label">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu mega-dropdown-menu">
+              <li><div data-bind="component: params.page"></div></li>
+            </ul>
         </li>
       </ul>
     </div>

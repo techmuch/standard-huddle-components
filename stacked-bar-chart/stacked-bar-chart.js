@@ -52,7 +52,7 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
-
+				color.range(tm.selectedColorsStackedBarChart()[8]);
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
 //console.log("width=",self.width,", height=",self.height);
@@ -211,7 +211,6 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 					  .attr("y", -50)
 					  .attr("x", -$(self.element).find(".y.axis")[0].getBBox().height / 2)
 					  .attr("dy", ".32em")
-					  //.attr("dy", ".71em")
 					  .text(self.yAxis_name);
 
 				yAxis = self.svg.selectAll(".y.axis");
@@ -420,7 +419,6 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				transition.select("g.x.axis").call(self.xAxis).selectAll(".tick text").style("font-size",font_size).call(wrap, self.x.rangeBand());
 				//transition.select("g.x.axis").call(self.xAxis);
 				transition.select("g.y.axis").call(self.yAxis);
-
 
 				// self.svg.append("g")
 					  // .attr("class", "y axis")
