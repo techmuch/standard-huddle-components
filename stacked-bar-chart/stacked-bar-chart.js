@@ -48,23 +48,27 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 			self.render = function() {
 				
 				var font_size = 10;
-				var tick_count = 5;
+				var tick_count = 4;
 
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[6]);
 
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
+//console.log("width=",self.width,", height=",self.height);
 
 				// Determine whether to show legend
-				// Render legend if area to visualize in is at least 600px high
+				// Render legend if area to visualize in is at least 300px high
 				if (self.height < 300) {
 					self.legend = false;
+					font_size = 10;
+					tick_count = 4
 				} else {
 					self.legend = true;
 					font_size = 16;
 					tick_count = 10;
 				}
+//console.log("====>",self.legend,font_size,tick_count);
 
 				self.svg = d3.select(self.element)
 								.append("svg")
@@ -285,12 +289,14 @@ define(['jquery', 'knockout', 'd3', 'text!./stacked-bar-chart.html'], function($
 				var color = d3.scale.ordinal().range(self.color()[6]); 
 				
 				var font_size = 10;
-				var tick_count = 5;
+				var tick_count = 4;
 				
 				// Determine whether to show legend
-				// Render legend if area to visualize in is at least 600px high
+				// Render legend if area to visualize in is at least 300px high
 				if (self.height < 300) {
 					self.legend = false;
+					font_size = 10;
+					tick_count = 4
 				} else {
 					self.legend = true;
 					font_size = 16;
