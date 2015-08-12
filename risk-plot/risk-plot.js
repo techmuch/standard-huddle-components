@@ -88,16 +88,16 @@ define(['jquery', 'knockout', 'd3', 'text!./risk-plot.html'], function($, ko, d3
 	var circles =
 	groups.selectAll("circle")
 		.data(data)
-	  .enter().append("circle")
-	  .attr("class", "circles")
-	  
+		.enter().append("circle")
+		.attr("class", "circles")
+		
 
-	  .attr({
-	    cx: function(d) { return self.x(+d[self.xAxisLabel]); },
-	    cy: function(d) { return self.y(+d[self.yAxisLabel]); },
-	    r: sizeCircle,
-	    id: function(d) { return d.techChall; }
-	  })
+		.attr({
+		cx: function(d) { return self.x(+d[self.xAxisLabel]); },
+		cy: function(d) { return self.y(+d[self.yAxisLabel]); },
+		r: sizeCircle,
+		id: function(d) { return d.techChall; }
+		})
 		.style("fill", function(d) { return color(d.stratThrust); });
 
 	// what to do when we mouse over a bubble
@@ -141,9 +141,9 @@ define(['jquery', 'knockout', 'd3', 'text!./risk-plot.html'], function($, ko, d3
 	// another bubble overlaps it
 		d3.selection.prototype.moveToFront = function() {
 			
-		  return this.each(function() { 
+			return this.each(function() { 
 			this.parentNode.appendChild(this); 
-		  }); 
+			}); 
 		};
 
 
@@ -169,7 +169,7 @@ define(['jquery', 'knockout', 'd3', 'text!./risk-plot.html'], function($, ko, d3
 	
 	// tooltips (using jQuery plugin tipsy)
 	circles.append("title")
-			.text(function(d) {  return d.techChall; })
+			.text(function(d) {	 return d.techChall; })
 			
 
 	// the legend color guide
@@ -178,10 +178,10 @@ define(['jquery', 'knockout', 'd3', 'text!./risk-plot.html'], function($, ko, d3
 			.data(stratThrust, function(d){return d;})
 		.enter().append("rect")
 		.attr({
-		  x: function(d, i) { return (margin.l + 20 + i*80); },
-		  y: self.height+25,
-		  width: 25,
-		  height: 12
+			x: function(d, i) { return (margin.l + 20 + i*80); },
+			y: self.height+25,
+			width: 25,
+			height: 12
 		})
 		
 		.style("fill", function(d) { return color(d); });
@@ -245,27 +245,27 @@ self.svg.append("rect")
 
 //Define gradient layout
 	var gradient = self.svg.append("svg:defs")
-    .append("svg:linearGradient")
-    .attr("id", "gradient")
-    .attr("x1", "0%")
-    .attr("y1", "100%")
-    .attr("x2", "100%")
-    .attr("y2", "0%")
-    .attr("spreadMethod", "pad");
-     
+	.append("svg:linearGradient")
+	.attr("id", "gradient")
+	.attr("x1", "0%")
+	.attr("y1", "100%")
+	.attr("x2", "100%")
+	.attr("y2", "0%")
+	.attr("spreadMethod", "pad");
+	 
 // Define the gradient colors
 gradient.append("svg:stop")
-    .attr("offset", "10%")
-    .attr("stop-color", "green")
-    .attr("stop-opacity", 1);
+	.attr("offset", "10%")
+	.attr("stop-color", "green")
+	.attr("stop-opacity", 1);
 gradient.append("svg:stop")
-    .attr("offset", "50%")
-    .attr("stop-color", "orange")
-    .attr("stop-opacity", 1);	
+	.attr("offset", "50%")
+	.attr("stop-color", "orange")
+	.attr("stop-opacity", 1);	
 gradient.append("svg:stop")
-    .attr("offset", "90%")
-    .attr("stop-color", "red")
-    .attr("stop-opacity", 1);
+	.attr("offset", "90%")
+	.attr("stop-color", "red")
+	.attr("stop-opacity", 1);
 
 //Apply the layout to the graph
 self.svg.append("rect")
@@ -372,12 +372,12 @@ self.svg.append("rect")
 	
 	circles.transition().duration(transDuration)
 	.attr({
-	    cx: function(d) { return self.x(d[self.xAxisLabel]); },
-	    cy: function(d) { return self.y(d[self.yAxisLabel]); },
-	    r: sizeCircle,
-	    id: function(d) { return d.techChall; }
-	  })
-	  
+		cx: function(d) { return self.x(d[self.xAxisLabel]); },
+		cy: function(d) { return self.y(d[self.yAxisLabel]); },
+		r: sizeCircle,
+		id: function(d) { return d.techChall; }
+		})
+		
 
 		}
 		

@@ -1,13 +1,13 @@
 ko-datatable table{
-    border-collapse: collapse;
+	border-collapse: collapse;
 	width: 100%;
 }
 
 table, th, td {
-    border: 1px solid black;
+	border: 1px solid black;
 }
 
 th, td {
-    text-align: center;
+	text-align: center;
 	padding: 5px;
 }

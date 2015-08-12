@@ -1,39 +1,39 @@
 <style type="text/css">
-  boot-strap-controls{
-    color: black;
-  }
-  
-  .panel-collapse .list-group {
-  margin-bottom: 0px;
-  padding-left: 0;
+	boot-strap-controls{
+		color: black;
+	}
+	
+	.panel-collapse .list-group {
+	margin-bottom: 0px;
+	padding-left: 0;
 }
 </style>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" data-bind="foreach: data, attr: {id: controlsId}">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bind="text: folder, attr: {'data-parent': $parent.controlsId, href: '#'+id, 'aria-controls': id}">
-          Collapsible Group
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" data-bind="attr: {id: id}, css: {in: open}">
-        <ul class="list-group" data-bind="foreach: controls">
-            <li class="list-group-item" data-bind="">
-              <!-- ko if: typeV === 'range' -->
-                <span data-bind="text: Name"></span>
-                <input type="range" data-bind="attr: {nim: min, max:max}, value: variable, valueUpdate: 'input'"/>
-              <!-- /ko -->
-              <!-- ko if: typeV === 'checkbox' -->
-                <input type="checkbox" data-bind="checked: variable" />
-                <span data-bind="text: Name"></span>
-              <!-- /ko -->
-              <!-- ko if: typeV === 'menu' -->
-                <span data-bind="text: Name"></span>
-                <select data-bind="options: listOptions, value: variable" ></select> 
-              <!-- /ko -->
-            </li>
-        </ul>
-    </div>
-  </div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="headingOne">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" data-bind="text: folder, attr: {'data-parent': $parent.controlsId, href: '#'+id, 'aria-controls': id}">
+					Collapsible Group
+				</a>
+			</h4>
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" data-bind="attr: {id: id}, css: {in: open}">
+				<ul class="list-group" data-bind="foreach: controls">
+						<li class="list-group-item" data-bind="">
+							<!-- ko if: typeV === 'range' -->
+								<span data-bind="text: Name"></span>
+								<input type="range" data-bind="attr: {nim: min, max:max}, value: variable, valueUpdate: 'input'"/>
+							<!-- /ko -->
+							<!-- ko if: typeV === 'checkbox' -->
+								<input type="checkbox" data-bind="checked: variable" />
+								<span data-bind="text: Name"></span>
+							<!-- /ko -->
+							<!-- ko if: typeV === 'menu' -->
+								<span data-bind="text: Name"></span>
+								<select data-bind="options: listOptions, value: variable" ></select> 
+							<!-- /ko -->
+						</li>
+				</ul>
+		</div>
+	</div>
 </div>

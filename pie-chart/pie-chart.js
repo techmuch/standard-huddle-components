@@ -11,28 +11,70 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			
 						
 			self.render = function() {
+//<<<<< HEAD
+				var slice_count = 0;
+				var current = 0.0;
+				var data2 = self.data();
+				var data = [];
+				var font_size;
+console.log(data2);
+				
+//=====
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[9]);
 				color.range(tm.selectedColorsPieChart()[8]);
 				//console.log(
+//>>>>>> 04e7681289b088f74408b4fe44b1da2f3e3c050b
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
-				var radius = Math.min(self.width, self.height) / 2;
+				var ref_radius = Math.min(self.width, self.height) / 2;
+				var radius = ref_radius;
+
+				// Find 80/20 split in data
+				if (ref_radius < 300) {
+					data2.forEach(function(c,i,a) {
+						if (current < 0.8) {
+							slice_count++;
+							current += c.value;
+							data.push(c);
+						}
+					});
+console.log("##",slice_count,data2.length);
+					if (slice_count === (data2.length - 1)) {
+						data.push(data2[slice_count]);
+					} else {
+						data.push({name:"Other",value:(1.0-current)});
+					}
+					radius = ref_radius;
+					font_size = 10;
+				} else {
+					data2.forEach(function(c,i,a) {
+						data.push(c);
+					});
+					radius = 0.75 * ref_radius
+					font_size = 16;
+				}
+				
+				
+
+				var color = self.color;
 				
 				var pie = d3.layout.pie()
 					.sort(null)
 					.value(function(d) { return d.value; });
 
+				// The inner and outer radii of the pie segments
 				var arc = d3.svg.arc()
 					.outerRadius(radius * 0.8)
 					.innerRadius(radius * 0.4);
 
+				// The "outer" arc, used for labeling purposes
 				var outerArc = d3.svg.arc()
-					.innerRadius(radius * 0.9)
-					.outerRadius(radius * 0.9);
+						.innerRadius(radius * 0.9)
+						.outerRadius(radius * 0.9);
 					
-					
+				// The identifier of each slice	
 				var key = function(d){ return d.data.name; }
 				
 				self.svg = d3.select(this.element)
@@ -50,14 +92,14 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				/* ------- PIE SLICES -------*/
 				var slice = self.svg.select(".slices").selectAll("path.slice")
 					.data(pie(data), key);
+console.log("SLICE: ",slice);
 
 				slice.enter()
 					.insert("path")
 					.style("fill", function(d) { return color(d.data.name); })
 					.attr("class", "slice");
 
-				slice		
-					.transition().duration(1000)
+				slice.transition().duration(1000)
 					.attrTween("d", function(d) {
 						this._current = this._current || d;
 						var interpolate = d3.interpolate(this._current, d);
@@ -71,13 +113,13 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 					.remove();
 
 				/* ------- TEXT LABELS -------*/
-
 				var text = self.svg.select(".labels").selectAll("text")
 					.data(pie(data), key);
 
 				text.enter()
 					.append("text")
 					.attr("dy", ".35em")
+					.style("font-size",font_size)
 					.text(function(d) {
 						return d.data.name;
 					});
@@ -90,11 +132,14 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 					.attrTween("transform", function(d) {
 						this._current = this._current || d;
 						var interpolate = d3.interpolate(this._current, d);
+console.log("attrTween: ",d);
 						this._current = interpolate(0);
 						return function(t) {
 							var d2 = interpolate(t);
 							var pos = outerArc.centroid(d2);
+console.log("1: ",d.data,d.value,pos);
 							pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+console.log("2: ",d.data,d.value,pos);
 							return "translate("+ pos +")";
 						};
 					})
@@ -140,13 +185,50 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 			}
 			
 			self.update = function() {
+//<<<<<<< HEAD
+				var slice_count = 0;
+				var current = 0.0;
+				var data2 = self.data();
+				var data = [];
+				var font_size;
+console.log(data2);
+//=======
 				var data = self.data();
 				var color = d3.scale.ordinal().range(self.color()[9]);
+//>>>>> 04e7681289b088f74408b4fe44b1da2f3e3c050b
 				
 				var margin = {top: 0, right: 0, bottom: 0, left: 0};
 				self.width = $(self.element.parentElement).width() - margin.left - margin.right;
 				self.height = $(self.element.parentElement).height() - margin.top - margin.bottom;
-				var radius = Math.min(self.width, self.height) / 2;
+				var ref_radius = Math.min(self.width, self.height) / 2;
+				var radius = ref_radius;
+
+				// Find 80/20 split in data
+				if (ref_radius < 300) {
+					data2.forEach(function(c,i,a) {
+						if (current < 0.8) {
+							slice_count++;
+							current += c.value;
+							data.push(c);
+						}
+					});
+console.log("##",slice_count,data2.length);
+					if (slice_count === (data2.length - 1)) {
+						data.push(data2[slice_count]);
+					} else {
+						data.push({name:"Other",value:(1.0-current)});
+					}
+					radius = ref_radius;
+					font_size = 10;
+				} else {
+					data2.forEach(function(c,i,a) {
+						data.push(c);
+					});
+					radius = 0.75 * ref_radius
+					font_size = 16;
+				}
+
+				var color = self.color;
 				
 				var pie = d3.layout.pie()
 					.sort(null)
@@ -157,8 +239,8 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 					.innerRadius(radius * 0.4);
 
 				var outerArc = d3.svg.arc()
-					.innerRadius(radius * 0.9)
-					.outerRadius(radius * 0.9);
+						.innerRadius(radius * 0.9)
+						.outerRadius(radius * 0.9);
 					
 					
 				var key = function(d){ return d.data.name; }
@@ -195,6 +277,7 @@ define(['jquery', 'knockout', 'd3', 'text!./pie-chart.html'], function($, ko, d3
 				text.enter()
 					.append("text")
 					.attr("dy", ".35em")
+					.style("font-size",font_size)
 					.text(function(d) {
 						return d.data.name;
 					});

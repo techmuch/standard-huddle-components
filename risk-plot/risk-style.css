@@ -1,9 +1,9 @@
 	.axis path,
 	.axis line {
-	  fill: none;
-	  stroke: #000;
-	  shape-rendering: crispEdges;
-	  opacity: 1;
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
+		opacity: 1;
 	}
 
 	.axis text { font-size:13px; }
@@ -15,10 +15,10 @@
 	.tipsy { font-size:13px; margin-top:-10px;}
 
 	.guide line {
-	  fill: none;
-	  stroke: #000;
-	  shape-rendering: crispEdges;
-	  opacity: 0;
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
+		opacity: 0;
 	}
 	
 	text{
